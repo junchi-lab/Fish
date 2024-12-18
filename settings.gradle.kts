@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Fish"
 include(":app")
- 
+include(":domain")
+include(":presentation")
+include(":data")
