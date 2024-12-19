@@ -1,4 +1,4 @@
-package com.junechee.fish.ui.theme
+package com.junechee.fish.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

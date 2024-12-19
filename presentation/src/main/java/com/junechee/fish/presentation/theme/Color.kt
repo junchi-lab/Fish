@@ -1,4 +1,4 @@
-package com.junechee.fish.ui.theme
+package com.junechee.fish.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
