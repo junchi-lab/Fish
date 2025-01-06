@@ -4,11 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,7 +17,9 @@ import com.junechee.fish.presentation.component.FishButton
 import com.junechee.fish.presentation.theme.FishTheme
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    onNavigationToLoginScreen : () -> Unit
+) {
     Surface {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -48,7 +46,7 @@ fun WelcomeScreen() {
                     .padding(bottom = 24.dp)
                     .align(alignment = Alignment.BottomCenter),
                 text = "Login",
-                onClick = {}
+                onClick = onNavigationToLoginScreen
             )
         }
     }
@@ -59,7 +57,9 @@ fun WelcomeScreen() {
 @Composable
 private fun WelcomeScreenPreview() {
     FishTheme {
-        WelcomeScreen()
+        WelcomeScreen(
+            onNavigationToLoginScreen = TODO()
+        )
     }
 
 }

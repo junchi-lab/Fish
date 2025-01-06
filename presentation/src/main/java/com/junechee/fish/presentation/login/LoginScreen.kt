@@ -19,12 +19,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.junechee.fish.presentation.component.FishButton
 import com.junechee.fish.presentation.component.FishTextField
 import com.junechee.fish.presentation.theme.FishTheme
 
 @Composable
 fun LoginScreen(
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+
+    LoginScreen(
+        id = "",
+        password = "",
+        onIdChange = {},
+        onPasswordChange = {},
+        onNavigateToSignUpScreen = viewModel::onLoginClick
+    )
+
+}
+
+@Composable
+private fun LoginScreen(
     id: String,
     password: String,
     onIdChange: (String) -> Unit,
