@@ -55,4 +55,7 @@ dependencies {
     implementation(libs.retrofit.converter.serialization)
     implementation(libs.okhttp)
 
+    //dataStore
+    implementation(libs.datastore)
+
 }

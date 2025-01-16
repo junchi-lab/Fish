@@ -1,5 +1,6 @@
 package com.junechee.fish.presentation.login
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,13 +9,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +20,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.junechee.fish.presentation.MainActivity
 import com.junechee.fish.presentation.component.FishButton
 import com.junechee.fish.presentation.component.FishTextField
 import com.junechee.fish.presentation.theme.FishTheme
@@ -31,7 +29,8 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    onNavigateToSignUpScreen: () -> Unit
 ) {
     val state = viewModel.collectAsState().value
     val context = LocalContext.current
@@ -43,6 +42,16 @@ fun LoginScreen(
                 sideEffect.message,
                 Toast.LENGTH_SHORT
             ).show()
+
+            is LoginSideEffect.NavigateToMainActivity -> {
+                context.startActivity(
+                    Intent(
+                        context, MainActivity::class.java
+                    ).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                )
+            }
         }
     }
 
@@ -51,7 +60,7 @@ fun LoginScreen(
         password = state.password,
         onIdChange = viewModel::onIdChange,
         onPasswordChange = viewModel::onPasswordChange,
-        onNavigateToSignUpScreen = {},
+        onNavigateToSignUpScreen = onNavigateToSignUpScreen,
         onLoginClick = viewModel::onLoginClick
     )
 

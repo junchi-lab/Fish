@@ -1,7 +1,6 @@
 package com.junechee.fish.presentation.login
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.junechee.fish.presentation.theme.FishTheme
