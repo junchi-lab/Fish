@@ -1,9 +1,7 @@
 package com.junechee.fish.data.usecase
 
-import android.content.Context
-import androidx.datastore.preferences.preferencesDataStore
 import com.junechee.fish.data.UserDataStore
-import com.junechee.fish.domain.usecase.GetTokenUseCase
+import com.junechee.fish.domain.usecase.login.GetTokenUseCase
 import javax.inject.Inject
 
 

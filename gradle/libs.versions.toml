@@ -15,6 +15,7 @@ hilt = "2.51.1"
 ksp = "2.0.0-1.0.23"
 orbit = "6.1.0"
 retrofit = "2.11.0"
+coil = "2.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,8 @@ retrofit-converter-serialization = {group = "com.jakewharton.retrofit", name = "
 okhttp = {group = "com.squareup.okhttp3", name = "okhttp", version = "4.12.0"}
 kotlinx-serialization-json = {group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.7.0"}
 datastore = {module = "androidx.datastore:datastore-preferences", version = "1.1.2"}
+coil = {group = "io.coil-kt", name = "coil", version.ref = "coil"}
+coil-compose = {group = "io.coil-kt", name = "coil-compose", version.ref = "coil"}
 
 
 

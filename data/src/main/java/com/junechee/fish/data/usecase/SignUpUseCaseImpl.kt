@@ -2,7 +2,7 @@ package com.junechee.fish.data.usecase
 
 import com.junechee.fish.data.model.SignUpParam
 import com.junechee.fish.data.retrofit.UserService
-import com.junechee.fish.domain.usecase.SignUpUseCase
+import com.junechee.fish.domain.usecase.login.SignUpUseCase
 import javax.inject.Inject
 
 class SignUpUseCaseImpl @Inject constructor(

@@ -1,25 +1,26 @@
 package com.junechee.fish.data.retrofit
 
 import com.junechee.fish.data.model.CommonResponse
+import com.junechee.fish.data.model.UserDTO
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface UserService {
 
     @POST("users/login")
-    @Headers("Content-Type:application/json; charset=UTF8")
     suspend fun login(
         @Body requestBody: RequestBody
     ): CommonResponse<String>
 
     @POST("users/sign-up")
-    @Headers("Content-Type:application/json; charset=UTF8")
     suspend fun signUp(
         @Body requestBody: RequestBody
     ): CommonResponse<Long>
 
-
+    @GET("users/my-page")
+    suspend fun myPage() : CommonResponse<UserDTO>
 
 }

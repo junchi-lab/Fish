@@ -2,7 +2,7 @@ package com.junechee.fish.data.usecase
 
 import com.junechee.fish.data.model.LoginParam
 import com.junechee.fish.data.retrofit.UserService
-import com.junechee.fish.domain.usecase.LoginUseCase
+import com.junechee.fish.domain.usecase.login.LoginUseCase
 import javax.inject.Inject
 
 class LoginUseCaseImpl @Inject constructor(

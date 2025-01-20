@@ -2,7 +2,7 @@ package com.junechee.fish.presentation.login
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
-import com.junechee.fish.domain.usecase.SignUpUseCase
+import com.junechee.fish.domain.usecase.login.SignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import org.orbitmvi.orbit.Container

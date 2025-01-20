@@ -1,6 +1,7 @@
 package com.junechee.fish.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.junechee.fish.data.retrofit.RetrofitIntercept
 import com.junechee.fish.data.retrofit.UserService
 import dagger.Module
 import dagger.Provides
@@ -18,9 +19,10 @@ val FISH_HOST = "http://172.30.1.48:8080"
 class RetrofitModule {
 
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(intercept: RetrofitIntercept): OkHttpClient {
         return OkHttpClient
             .Builder()
+            .addInterceptor(intercept)
             .build()
     }
 

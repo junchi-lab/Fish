@@ -2,10 +2,10 @@ package com.junechee.fish.presentation.login
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
-import com.junechee.fish.domain.usecase.ClearTokenUseCase
-import com.junechee.fish.domain.usecase.GetTokenUseCase
-import com.junechee.fish.domain.usecase.LoginUseCase
-import com.junechee.fish.domain.usecase.SetTokenUseCase
+import com.junechee.fish.domain.usecase.login.ClearTokenUseCase
+import com.junechee.fish.domain.usecase.login.GetTokenUseCase
+import com.junechee.fish.domain.usecase.login.LoginUseCase
+import com.junechee.fish.domain.usecase.login.SetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import org.orbitmvi.orbit.Container

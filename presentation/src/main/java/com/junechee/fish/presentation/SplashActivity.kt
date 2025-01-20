@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
-import com.junechee.fish.domain.usecase.GetTokenUseCase
+import com.junechee.fish.domain.usecase.login.GetTokenUseCase
 import com.junechee.fish.presentation.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
