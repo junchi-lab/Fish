@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import com.junechee.fish.domain.usecase.login.ClearTokenUseCase
 import com.junechee.fish.domain.usecase.main.setting.GetMyUserUseCase
+import com.junechee.fish.domain.usecase.main.setting.UpdateMyNameUseCase
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor(
     private val clearTokenUseCase: ClearTokenUseCase,
     private val getMyUserUseCase: GetMyUserUseCase,
+    private val updateMyNameUseCase: UpdateMyNameUseCase
 
     ) : ViewModel(), ContainerHost<SettingState, SettingSideEffect> {
 
@@ -56,13 +58,15 @@ class SettingViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    fun onNameChangeClick() {
-        TODO("Not yet implemented")
-    }
-
     fun onLogoutClick() = intent {
         clearTokenUseCase().getOrThrow()
         postSideEffect(SettingSideEffect.NavigateToLoginActivity)
+    }
+
+    fun onUsernameChange(username: String) = intent {
+        updateMyNameUseCase(userName = username).getOrThrow()
+        load()
+
     }
 
 }
