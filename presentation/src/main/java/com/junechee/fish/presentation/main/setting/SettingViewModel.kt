@@ -1,10 +1,13 @@
 package com.junechee.fish.presentation.main.setting
 
+import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import com.junechee.fish.domain.usecase.login.ClearTokenUseCase
 import com.junechee.fish.domain.usecase.main.setting.GetMyUserUseCase
-import com.junechee.fish.domain.usecase.main.setting.UpdateMyNameUseCase
+import com.junechee.fish.domain.usecase.main.setting.SetMyUserUseCase
+import com.junechee.fish.domain.usecase.main.setting.SetProfileImageUseCase
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -20,9 +23,10 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor(
     private val clearTokenUseCase: ClearTokenUseCase,
     private val getMyUserUseCase: GetMyUserUseCase,
-    private val updateMyNameUseCase: UpdateMyNameUseCase
+    private val setMyUserUseCase: SetMyUserUseCase,
+    private val setProfileImageUseCase: SetProfileImageUseCase
 
-    ) : ViewModel(), ContainerHost<SettingState, SettingSideEffect> {
+) : ViewModel(), ContainerHost<SettingState, SettingSideEffect> {
 
 
     override val container: Container<SettingState, SettingSideEffect> =
@@ -52,11 +56,10 @@ class SettingViewModel @Inject constructor(
             )
         }
 
+        Log.i("SettingViewModel State","fileUrl : ${user.profileImageUrl}")
+
     }
 
-    fun onImageViewChange() {
-        TODO("Not yet implemented")
-    }
 
     fun onLogoutClick() = intent {
         clearTokenUseCase().getOrThrow()
@@ -64,9 +67,18 @@ class SettingViewModel @Inject constructor(
     }
 
     fun onUsernameChange(username: String) = intent {
-        updateMyNameUseCase(userName = username).getOrThrow()
+        setMyUserUseCase(
+            userName = username
+        ).getOrThrow()
         load()
 
+    }
+
+    fun onImageViewChange(contentUri: Uri?) = intent {
+        setProfileImageUseCase(
+            contentUri = contentUri.toString()
+        ).getOrThrow()
+        load()
     }
 
 }

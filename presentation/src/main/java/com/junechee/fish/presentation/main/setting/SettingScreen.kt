@@ -3,6 +3,9 @@ package com.junechee.fish.presentation.main.setting
 import android.content.Intent
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -53,7 +56,7 @@ fun SettingScreen(
     val context = LocalContext.current
     val state = viewModel.collectAsState().value
 
-    var usernameDialogVisible by remember { mutableStateOf( false) }
+    var usernameDialogVisible by remember { mutableStateOf(false) }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -74,10 +77,22 @@ fun SettingScreen(
 
         }
     }
+
+    val visualMediaPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = viewModel::onImageViewChange
+    )
+
     SettingScreen(
         username = state.username,
         profileImageUrl = state.profileImageUrl,
-        onImageChangeClick = viewModel::onImageViewChange,
+        onImageChangeClick = {
+            visualMediaPickerLauncher.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+        },
         onNameChangeClick = { usernameDialogVisible = true },
         onLogoutClick = viewModel::onLogoutClick
     )
@@ -86,7 +101,7 @@ fun SettingScreen(
         visible = usernameDialogVisible,
         initialUsername = state.username,
         onUsernameChange = viewModel::onUsernameChange,
-        onDismissRequest = {usernameDialogVisible = false}
+        onDismissRequest = { usernameDialogVisible = false }
     )
 
 }

@@ -1,6 +1,7 @@
 package com.junechee.fish.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.junechee.fish.data.retrofit.FileService
 import com.junechee.fish.data.retrofit.RetrofitIntercept
 import com.junechee.fish.data.retrofit.UserService
 import dagger.Module
@@ -43,5 +44,10 @@ class RetrofitModule {
     @Provides
     fun provideUserService(retrofit: Retrofit): UserService{
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    fun provideFileService(retrofit: Retrofit): FileService{
+        return retrofit.create(FileService::class.java)
     }
 }

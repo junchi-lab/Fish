@@ -6,14 +6,16 @@ import com.junechee.fish.data.usecase.LoginUseCaseImpl
 import com.junechee.fish.data.usecase.SetTokenUseCaseImpl
 import com.junechee.fish.data.usecase.SignUpUseCaseImpl
 import com.junechee.fish.data.usecase.main.setting.GetMyUserUseCaseImpl
-import com.junechee.fish.data.usecase.main.setting.UpdateMyNameUseCaseImpl
+import com.junechee.fish.data.usecase.main.setting.SetMyUserUseCaseImpl
+import com.junechee.fish.data.usecase.main.setting.SetProfileImageUseCaseImpl
 import com.junechee.fish.domain.usecase.login.ClearTokenUseCase
 import com.junechee.fish.domain.usecase.login.GetTokenUseCase
 import com.junechee.fish.domain.usecase.login.LoginUseCase
 import com.junechee.fish.domain.usecase.login.SetTokenUseCase
 import com.junechee.fish.domain.usecase.login.SignUpUseCase
 import com.junechee.fish.domain.usecase.main.setting.GetMyUserUseCase
-import com.junechee.fish.domain.usecase.main.setting.UpdateMyNameUseCase
+import com.junechee.fish.domain.usecase.main.setting.SetMyUserUseCase
+import com.junechee.fish.domain.usecase.main.setting.SetProfileImageUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -41,5 +43,8 @@ abstract class UserModule {
     abstract fun bindGetMyUserUseCase(uc: GetMyUserUseCaseImpl): GetMyUserUseCase
 
     @Binds
-    abstract fun bindUpdateMyNameUseCase(uc: UpdateMyNameUseCaseImpl): UpdateMyNameUseCase
+    abstract fun bindSetProfileImageUseCase(uc: SetProfileImageUseCaseImpl): SetProfileImageUseCase
+
+    @Binds
+    abstract fun bindSetMyUserUseCase(uc: SetMyUserUseCaseImpl): SetMyUserUseCase
 }

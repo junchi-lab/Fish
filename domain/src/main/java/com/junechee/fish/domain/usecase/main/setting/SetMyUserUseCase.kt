@@ -1,8 +1,9 @@
 package com.junechee.fish.domain.usecase.main.setting
 
-interface UpdateMyNameUseCase {
+interface SetMyUserUseCase {
 
     suspend operator fun invoke(
-        userName: String
+        userName: String? = null,
+        profileImageUrl: String? = null
     ): Result<Unit>
 }
