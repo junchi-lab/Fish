@@ -1,15 +1,21 @@
 package com.junechee.fish.presentation
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.Manifest.permission.READ_MEDIA_VIDEO
+import android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
 import android.content.Intent
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.Divider
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,21 +42,38 @@ fun MainBottomBar(
 ) {
     val context = LocalContext.current
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry
+    val currentRoute: MainRoute = navBackStackEntry
         ?.destination
         ?.route
         ?.let { currentRoute -> MainRoute.entries.find { route -> route.route == currentRoute } }
         ?: MainRoute.BOARD
 
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+    ) {
+        context.startActivity(
+            Intent(context, WritingActivity::class.java)
+        )
+    }
+
     MainBottomBar(
         currentRoute = currentRoute,
         onItemClick = { newRoute ->
             if (newRoute == MainRoute.WRITING) {
-                context.startActivity(
-                    Intent(context, WritingActivity::class.java)
-                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    permissionLauncher.launch(
+                        arrayOf(
+                            READ_MEDIA_IMAGES,
+                            READ_MEDIA_VIDEO,
+                            READ_MEDIA_VISUAL_USER_SELECTED
+                        )
+                    )
 
-
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissionLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
+                } else {
+                    permissionLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
+                }
             } else {
                 navController.navigate(route = newRoute.route) {
                     navController.graph.startDestinationRoute?.let {
@@ -62,7 +85,6 @@ fun MainBottomBar(
                     this.restoreState = true
                 }
             }
-
         }
     )
 }
@@ -72,7 +94,10 @@ private fun MainBottomBar(
     currentRoute: MainRoute,
     onItemClick: (MainRoute) -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .padding(WindowInsets.navigationBars.asPaddingValues())
+    ) {
         HorizontalDivider()
         Row(
             modifier = Modifier
