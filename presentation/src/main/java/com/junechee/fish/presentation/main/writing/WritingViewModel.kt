@@ -9,6 +9,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.handleCoroutineException
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.annotation.OrbitExperimental
+import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -45,7 +47,7 @@ class WritingViewModel @Inject constructor(
         }
     }
 
-    fun onItemClick(image: Image) = intent{
+    fun onItemClick(image: Image) = intent {
         reduce {
             if (state.selectedImages.contains(image)) {
                 state.copy(
@@ -60,12 +62,23 @@ class WritingViewModel @Inject constructor(
 
     }
 
+    @OptIn(OrbitExperimental::class)
+    fun onTextChage(text: String) = blockingIntent {
+        reduce {
+            state.copy(text = text)
+        }
+    }
+
+    fun onPostClick() = intent {
+        val writingState = state
+    }
 }
 
 @Immutable
 data class WritingState(
     val selectedImages: List<Image> = emptyList(),
-    val images: List<Image> = emptyList()
+    val images: List<Image> = emptyList(),
+    val text: String = ""
 )
 
 sealed interface WritingSideEffect {

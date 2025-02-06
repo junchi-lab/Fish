@@ -14,7 +14,9 @@ class WritingActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FishTheme {
-                WritingNavHost()
+                WritingNavHost {
+                    finish()
+                }
             }
         }
     }
