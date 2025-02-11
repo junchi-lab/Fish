@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt)
     id("com.google.devtools.ksp")
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -57,5 +58,8 @@ dependencies {
 
     //dataStore
     implementation(libs.datastore)
+
+    //lifecycle service
+    implementation(libs.androidx.lifecycle.service)
 
 }
