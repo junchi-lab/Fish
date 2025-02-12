@@ -34,7 +34,7 @@ fun WritingScreen(
 
     WritingScreen(
         text = state.text,
-        onTextChange = viewModel::onTextChage,
+        onTextChange = viewModel::onTextChange,
         images = state.selectedImages.map { it.uri },
         onBackClick = onBackClick,
         onPostClick = viewModel::onPostClick

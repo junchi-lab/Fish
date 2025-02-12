@@ -65,7 +65,7 @@ class WritingViewModel @Inject constructor(
     }
 
     @OptIn(OrbitExperimental::class)
-    fun onTextChage(text: String) = blockingIntent {
+    fun onTextChange(text: String) = blockingIntent {
         reduce {
             state.copy(text = text)
         }
