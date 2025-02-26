@@ -46,7 +46,7 @@ fun BoardHeader(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(onClick = { onOptionClick }) {
+        IconButton(onClick = onOptionClick ) {
             Icon(
                 imageVector = Icons.Filled.MoreVert,
                 contentDescription = "옵션"

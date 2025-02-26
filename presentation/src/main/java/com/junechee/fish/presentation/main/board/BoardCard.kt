@@ -2,6 +2,7 @@ package com.junechee.fish.presentation.main.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,7 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
+import com.junechee.fish.domain.model.Comment
+import com.junechee.fish.presentation.main.board.comment.CommentDialog
 import com.junechee.fish.presentation.main.writing.FishImagePager
 import com.junechee.fish.presentation.theme.FishTheme
 
@@ -34,10 +36,13 @@ fun BoardCard(
     username: String,
     images: List<String>,
     text: String,
+    comments: List<Comment>,
     onOptionClick: () -> Unit,
-    onReplyClick: () -> Unit
+    onDeleteComment: (Comment) -> Unit,
+    onCommentSend:(String)->Unit
 
-) {
+    ) {
+    var commentDialogVisible by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .padding(
@@ -62,7 +67,9 @@ fun BoardCard(
         // 이미지 페이저
         if (images.isNotEmpty()) {
             FishImagePager(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f),
                 images = images
             )
         }
@@ -100,7 +107,9 @@ fun BoardCard(
                 .padding(top = 8.dp)
                 .padding(horizontal = 8.dp)
                 .align(Alignment.End),
-            onClick = onReplyClick
+            onClick = {
+                commentDialogVisible = true
+            }
         ) {
             Icon(
                 imageVector = Icons.Filled.AddCircle,
@@ -108,6 +117,15 @@ fun BoardCard(
             )
         }
     }
+
+    CommentDialog(
+        visible = commentDialogVisible,
+        comments = comments,
+        onDismissRequest = { commentDialogVisible = false },
+        onDeleteComment = {comment -> onDeleteComment(comment)},
+        onCloseClick = { commentDialogVisible = false},
+        onCommentSend = {text -> onCommentSend(text)}
+    )
 
 
 }
@@ -120,8 +138,10 @@ private fun BoardCardPreview() {
             username = "Fish Preview",
             images = emptyList(),
             text = "Preview\nPreview\nPreview\nPreview\nPreview\n",
+            comments = emptyList(),
             onOptionClick = {},
-            onReplyClick = {}
+            onDeleteComment = {},
+            onCommentSend = {}
 
         )
     }

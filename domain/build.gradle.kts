@@ -18,4 +18,7 @@ kotlin {
 dependencies {
     // serialization
     implementation(libs.kotlinx.serialization.json)
+
+    // paging3 - common
+    implementation(libs.paging.common)
 }

@@ -12,6 +12,7 @@ import com.junechee.fish.data.model.BoardParam
 import com.junechee.fish.data.model.BoardParcel
 import com.junechee.fish.data.model.ContentParam
 import com.junechee.fish.data.retrofit.BoardService
+import com.junechee.fish.domain.model.ACTION_POSTED
 import com.junechee.fish.domain.usecase.file.UploadImageUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -102,6 +103,14 @@ class PostingService : LifecycleService() {
         )
         val requestBody = boardParam.toRequestBody()
         boardService.postBoard(requestBody)
+
+        sendBroadcast(
+            Intent(
+                ACTION_POSTED
+            ).apply {
+                setPackage(packageName)
+            }
+        )
 
         // 서비스 종료
         stopForeground(STOP_FOREGROUND_DETACH)

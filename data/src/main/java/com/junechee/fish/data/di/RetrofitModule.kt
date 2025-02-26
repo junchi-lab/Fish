@@ -14,7 +14,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
-val FISH_HOST = "http://172.30.1.48:8080"
+val FISH_HOST = "http://192.168.0.40:8080"
 
 @Module
 @InstallIn(SingletonComponent::class)
