@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.junechee.fish.domain.model.Comment
+import com.junechee.fish.domain.usecase.main.setting.GetMyUserUseCase
 import com.junechee.fish.presentation.theme.FishTheme
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -44,10 +45,14 @@ fun BoardScreen(
     }
 
     BoardScreen(
+        myUserId = state.myUserId,
         boardCardModels = items,
         deleteBoardIds = state.deleteBoardIds,
+        addedComments = state.addedComments,
+        deletedComments = state.deletedComments,
         onOptionClick = { modelForDialog = it },
-        onDeleteComment = viewModel::onDeleteComment
+        onDeleteComment = viewModel::onDeleteComment,
+        onCommentSend = viewModel::onCommentSend
     )
 
     BoardOptionDialog(
@@ -61,10 +66,14 @@ fun BoardScreen(
 @Composable
 fun BoardScreen(
     modifier: Modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues()),
+    myUserId: Long,
     boardCardModels: LazyPagingItems<BoardCardModel>,
     deleteBoardIds: Set<Long> = emptySet(),
+    addedComments: Map<Long, List<Comment>>,
+    deletedComments: Map<Long, List<Comment>>,
     onOptionClick: (BoardCardModel) -> Unit,
-    onDeleteComment: (Comment) -> Unit
+    onDeleteComment: (Long, Comment) -> Unit,
+    onCommentSend: (Long, String) -> Unit
 ) {
     Surface {
         LazyColumn(
@@ -75,15 +84,19 @@ fun BoardScreen(
                 key = { index -> boardCardModels[index]?.boardId ?: index }
             ) { index ->
                 boardCardModels[index]?.run {
+                    val model:BoardCardModel = this
                     if (!deleteBoardIds.contains(this.boardId)) {
                         BoardCard(
-                            username = this.username,
-                            images = this.images,
-                            text = this.text,
-                            comments = comments,
-                            onOptionClick = { onOptionClick(this) },
-                            onDeleteComment = {onDeleteComment(comments[index])},
-                            onCommentSend = {}
+                            isMine = model.userId == myUserId,
+                            boardId = model.boardId,
+                            username = model.username,
+                            images = model.images,
+                            text = model.text,
+                            comments = model.comments + addedComments[model.boardId].orEmpty() - deletedComments[model.boardId].orEmpty()
+                                .toSet(),
+                            onOptionClick = { onOptionClick(model) },
+                            onDeleteComment = onDeleteComment,
+                            onCommentSend = onCommentSend
                         )
                     }
                 }

@@ -22,6 +22,7 @@ import com.junechee.fish.presentation.theme.FishTheme
 @Composable
 fun BoardHeader(
     modifier: Modifier = Modifier,
+    isMine: Boolean,
     profileImageUrl: String? = null,
     username: String,
     onOptionClick: () -> Unit
@@ -44,13 +45,15 @@ fun BoardHeader(
             style = MaterialTheme.typography.titleMedium
         )
 
-        Spacer(modifier = Modifier.weight(1f))
+        if (isMine){
+            Spacer(modifier = Modifier.weight(1f))
 
-        IconButton(onClick = onOptionClick ) {
-            Icon(
-                imageVector = Icons.Filled.MoreVert,
-                contentDescription = "옵션"
-            )
+            IconButton(onClick = onOptionClick) {
+                Icon(
+                    imageVector = Icons.Filled.MoreVert,
+                    contentDescription = "옵션"
+                )
+            }
         }
 
     }
@@ -63,6 +66,7 @@ private fun BoardHeaderPreview() {
     FishTheme {
         Surface {
             BoardHeader(
+                isMine = true,
                 username = "Fish",
                 onOptionClick = {}
             )

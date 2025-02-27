@@ -32,16 +32,18 @@ import com.junechee.fish.presentation.theme.FishTheme
 @Composable
 fun BoardCard(
     modifier: Modifier = Modifier,
+    isMine: Boolean,
+    boardId: Long,
     profileImageUrl: String? = null,
     username: String,
     images: List<String>,
     text: String,
     comments: List<Comment>,
     onOptionClick: () -> Unit,
-    onDeleteComment: (Comment) -> Unit,
-    onCommentSend:(String)->Unit
+    onDeleteComment: (Long, Comment) -> Unit,
+    onCommentSend: (Long, String) -> Unit
 
-    ) {
+) {
     var commentDialogVisible by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
@@ -59,6 +61,7 @@ fun BoardCard(
         // 헤더
         BoardHeader(
             modifier = Modifier.fillMaxWidth(),
+            isMine = isMine,
             profileImageUrl = profileImageUrl,
             username = username,
             onOptionClick = onOptionClick
@@ -113,18 +116,24 @@ fun BoardCard(
         ) {
             Icon(
                 imageVector = Icons.Filled.AddCircle,
-                contentDescription = "reply"
+                contentDescription = "${comments.size} reply"
             )
         }
     }
 
     CommentDialog(
+        isMine = isMine,
         visible = commentDialogVisible,
         comments = comments,
         onDismissRequest = { commentDialogVisible = false },
-        onDeleteComment = {comment -> onDeleteComment(comment)},
-        onCloseClick = { commentDialogVisible = false},
-        onCommentSend = {text -> onCommentSend(text)}
+        onDeleteComment = { comment ->
+            onDeleteComment(
+                boardId,
+                comment
+            )
+        },
+        onCloseClick = { commentDialogVisible = false },
+        onCommentSend = { text -> onCommentSend(boardId, text) }
     )
 
 
@@ -135,13 +144,15 @@ fun BoardCard(
 private fun BoardCardPreview() {
     FishTheme {
         BoardCard(
+            isMine = false,
+            boardId = -1L,
             username = "Fish Preview",
             images = emptyList(),
             text = "Preview\nPreview\nPreview\nPreview\nPreview\n",
             comments = emptyList(),
             onOptionClick = {},
-            onDeleteComment = {},
-            onCommentSend = {}
+            onDeleteComment = { boardId, comment -> },
+            onCommentSend = { boardId, text -> }
 
         )
     }

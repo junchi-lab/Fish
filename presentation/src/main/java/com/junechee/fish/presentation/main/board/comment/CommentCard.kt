@@ -24,6 +24,7 @@ import org.w3c.dom.Comment
 @Composable
 fun CommentCard(
     modifier: Modifier = Modifier,
+    isMine : Boolean,
     profileImageUrl: String? = null,
     username: String = "",
     text: String = "",
@@ -47,12 +48,14 @@ fun CommentCard(
                 Text(text = text)
             }
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = onDeleteComment) {
-                Icon(
-                    modifier = Modifier.size(16.dp),
-                    imageVector = Icons.Filled.Clear,
-                    contentDescription = "Delete"
-                )
+            if (isMine){
+                IconButton(onClick = onDeleteComment) {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.Filled.Clear,
+                        contentDescription = "Delete"
+                    )
+                }
             }
         }
 
@@ -66,6 +69,7 @@ fun CommentCard(
 private fun CommentCardPreview() {
     FishTheme {
         CommentCard(
+            isMine = true,
             profileImageUrl = null,
             username = "JJJJJJJ",
             text = "HI",

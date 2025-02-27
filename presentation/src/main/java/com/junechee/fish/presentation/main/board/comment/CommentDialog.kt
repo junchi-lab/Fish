@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,12 +39,13 @@ import com.junechee.fish.presentation.theme.FishTheme
 @Composable
 fun CommentDialog(
     modifier: Modifier = Modifier,
+    isMine: Boolean,
     comments: List<Comment>,
     visible: Boolean,
     onDismissRequest: () -> Unit,
     onCloseClick: () -> Unit = {},
-    onCommentSend: (String) -> Unit,
-    onDeleteComment: (Comment) -> Unit
+    onDeleteComment: (Comment) -> Unit,
+    onCommentSend: (String) -> Unit
 ) {
     if (visible) {
         Dialog(
@@ -59,7 +62,9 @@ fun CommentDialog(
                     shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
                 ) {
                     Column(
-                        modifier = Modifier.fillMaxHeight(0.5f)
+                        modifier = Modifier
+                            .fillMaxHeight(0.5f)
+                            .imePadding()
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically
@@ -84,6 +89,7 @@ fun CommentDialog(
 
                                 CommentCard(
                                     modifier = Modifier,
+                                    isMine = isMine,
                                     profileImageUrl = comment.profileImageUrl,
                                     username = comment.username,
                                     text = comment.text,
@@ -92,13 +98,19 @@ fun CommentDialog(
                             }
                         }
                         HorizontalDivider()
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
                             FishTextField(
                                 modifier = Modifier.weight(1f),
                                 value = text,
                                 onValueChange = { text = it }
                             )
-                            IconButton(onClick = {onCommentSend(text)}) {
+                            IconButton(onClick = {
+                                onCommentSend(text)
+                                text = ""
+                            }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.Send,
                                     contentDescription = "Send"
@@ -118,6 +130,7 @@ fun CommentDialog(
 private fun CommentDialogPreview() {
     FishTheme {
         CommentDialog(
+            isMine = true,
             visible = true,
             comments = emptyList(),
             onDismissRequest = {},
